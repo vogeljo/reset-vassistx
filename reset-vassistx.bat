@@ -1,6 +1,6 @@
 @echo off
 set tempfile="%temp%\1489AFE4.TMP"
-set regkey="HKEY_CURRENT_USER\SOFTWARE\Licenses"
+set regkey=HKEY_CURRENT_USER\SOFTWARE\Licenses
 set has_error=0
 
 tasklist | find /I "devenv.exe" > NUL
@@ -13,13 +13,10 @@ echo.
 
 echo Resetting Visual Assist X trial period
 echo Deleting registry key %regkey% ...
-reg query %regkey% >nul 2>&1
-if %errorlevel% == 0 (
-	reg delete /f %regkey% >nul 2>&1
-	if %errorlevel% == 1 (
-		echo Registry key was found but not deleted.
-		set has_error=1
-	)
+reg delete %regkey% /f
+if %errorlevel% == 1 (
+	echo Registry key was not deleted.
+	set has_error=1
 )
 echo.
 
